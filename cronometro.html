@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuenta Regresiva</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    #countdown {
+      font-size: 18px;
+      margin-top: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cuenta Regresiva</h1>
+    <p>Selecciona una fecha futura:</p>
+    <input type="datetime-local" id="targetDate">
+    <div id="countdown">Introduce una fecha para iniciar el cronómetro.</div>
+  </div>
+
+  <script>
+    const targetDateInput = document.getElementById("targetDate");
+    const countdownDisplay = document.getElementById("countdown");
+
+    targetDateInput.addEventListener("change", () => {
+      const targetDate = new Date(targetDateInput.value);
+      if (isNaN(targetDate.getTime())) {
+        countdownDisplay.innerText = "Fecha inválida. Por favor, selecciona una fecha válida.";
+        return;
+      }
+      
+      const interval = setInterval(() => {
+        const now = new Date();
+        const timeDifference = targetDate - now;
+
+        if (timeDifference <= 0) {
+          clearInterval(interval);
+          countdownDisplay.innerText = "¡La fecha ha llegado!";
+          return;
+        }
+
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+        countdownDisplay.innerText = `Faltan: ${days} días, ${hours} horas, ${minutes} minutos y ${seconds} segundos.`;
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
